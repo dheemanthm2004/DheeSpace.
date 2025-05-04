@@ -8,20 +8,20 @@ async function DocLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ id: string }>; // Change this to a Promise
+  params: Promise<{ id: string }>; // Updated type definition
 }) {
-  // Await params to ensure they're available
-  const { id } = await params;  // Destructure `id` after awaiting params
+  const { id } = await params; // Properly await the Promise
   const { userId } = await auth();
 
   if (!userId) {
-    redirect('/sign-in'); // Redirect if not authenticated
+    redirect('/sign-in');
   }
 
   return <RoomProvider roomId={id}>{children}</RoomProvider>;
 }
 
 export default DocLayout;
+
 
 // import RoomProvider from '@/components/RoomProvider';
 // import { auth } from '@clerk/nextjs/server';
