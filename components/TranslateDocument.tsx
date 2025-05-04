@@ -3,10 +3,10 @@ import * as Y from 'yjs';
 import React, { FormEvent } from 'react';
 import {
     Dialog,
-    DialogClose,
+   
     DialogContent,
     DialogDescription,
-    DialogFooter,
+ 
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -21,7 +21,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Button } from "./ui/button";
-import { Input } from './ui/input';
+
 import { BotIcon, LanguagesIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import Markdown from "react-markdown";
@@ -43,7 +43,7 @@ function TranslateDocument({ doc }: { doc: Y.Doc }) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [language, setLanguage] = React.useState<string>("");
     const [summary, setSummary] = React.useState("");
-    const [question, setQuestion] = React.useState("");
+    const [question] = React.useState("");
     const [isPending, startTransition] = React.useTransition();
 
     const handleAskQuestion = async (e: FormEvent) => {

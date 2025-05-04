@@ -16,7 +16,7 @@ import ChatToDocument from './ChatToDocument';
 type EditorProps = {
     darkMode: boolean;
     doc: Y.Doc ;
-    provider: any;
+    provider: LiveblocksYjsProvider;
 };
 
 

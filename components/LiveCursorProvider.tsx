@@ -8,7 +8,7 @@ function LiveCursorProvider({
 }:{
     children: React.ReactNode
 }) {
-    const [myPresence,updateMyPresence] = useMyPresence();
+    const [,updateMyPresence] = useMyPresence();
     const others=useOthers();
     function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
         const cursor={
