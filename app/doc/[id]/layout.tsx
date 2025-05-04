@@ -1,18 +1,18 @@
 import RoomProvider from '@/components/RoomProvider';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-async function DocLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
+// Fix: Use the correct layout props typing
+interface DocLayoutProps {
+  children: ReactNode;
   params: {
     id: string;
   };
-}) {
-  const { id } = params; // ✅ No await here
+}
+
+export default async function DocLayout({ children, params }: DocLayoutProps) {
+  const { id } = params;
   const { userId } = await auth();
 
   if (!userId) {
@@ -22,7 +22,6 @@ async function DocLayout({
   return <RoomProvider roomId={id}>{children}</RoomProvider>;
 }
 
-export default DocLayout;
 
 
 
