@@ -1,28 +1,29 @@
 import RoomProvider from '@/components/RoomProvider';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import React, { ReactNode } from 'react';
+import React from 'react';
 
-// Fix: Use the correct layout props typing
-interface DocLayoutProps {
-  children: ReactNode;
+async function DocLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
   params: {
     id: string;
   };
-}
-
-export default async function DocLayout({ children, params }: DocLayoutProps) {
-  const { id } = params;
+}) {
+  // Await params to ensure they're available
+  const { id } = await params;  // Destructure `id` after awaiting params
   const { userId } = await auth();
 
   if (!userId) {
-    redirect('/sign-in');
+    redirect('/sign-in'); // Redirect if not authenticated
   }
 
   return <RoomProvider roomId={id}>{children}</RoomProvider>;
 }
 
-
+export default DocLayout;
 
 
 // import RoomProvider from '@/components/RoomProvider';
