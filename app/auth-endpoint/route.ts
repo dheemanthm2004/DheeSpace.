@@ -6,23 +6,27 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   const { userId, sessionClaims } = await auth();
 
-  if (!userId || !sessionClaims?.email || !sessionClaims?.fullName || !sessionClaims?.image) {
+  const email = sessionClaims?.email;
+  const fullName = sessionClaims?.fullName;
+  const image = sessionClaims?.image;
+
+  if (!userId || !email || !fullName || !image) {
     return new Response('Unauthorized: Missing session information', { status: 401 });
   }
 
   const { room } = await request.json();
 
-  const session = liveblocks.prepareSession(sessionClaims.email, {
+  const session = liveblocks.prepareSession(email, {
     userInfo: {
-      name: sessionClaims.fullName,
-      email: sessionClaims.email,
-      avatar: sessionClaims.image,
+      name: fullName,
+      email,
+      avatar: image,
     },
   });
 
   const usersInRoom = await adminDb
     .collectionGroup("rooms")
-    .where("userId", "==", sessionClaims.email)
+    .where("userId", "==", email)
     .get();
 
   const userInRoom = usersInRoom.docs.find((doc) => doc.id === room);
@@ -40,6 +44,7 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
 
 
 // import { adminDb } from "@/firebase-admin";

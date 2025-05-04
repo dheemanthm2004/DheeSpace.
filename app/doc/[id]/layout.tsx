@@ -12,18 +12,18 @@ async function DocLayout({
     id: string;
   };
 }) {
-  // Await params to ensure they're available
-  const { id } = await params;  // Destructure `id` after awaiting params
+  const { id } = params; // ✅ No await here
   const { userId } = await auth();
 
   if (!userId) {
-    redirect('/sign-in'); // Redirect if not authenticated
+    redirect('/sign-in');
   }
 
   return <RoomProvider roomId={id}>{children}</RoomProvider>;
 }
 
 export default DocLayout;
+
 
 
 // import RoomProvider from '@/components/RoomProvider';

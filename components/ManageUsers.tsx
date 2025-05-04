@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { FormEvent, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Button } from "./ui/button";
 
 import {  remveUserFromDocument } from "@/actions/actions";
