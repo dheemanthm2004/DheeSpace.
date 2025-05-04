@@ -1,0 +1,170 @@
+
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import stringToColor from '@/lib/stringToColor';
+
+function FollowPointer({
+    x, y, info
+}: {
+    x: number;
+    y: number;
+    info: {
+        name: string;
+        email: string;
+        avatar: string;
+    };
+}) {
+    const color = stringToColor(info.email || '1');
+
+    return (
+        <motion.div
+            className="follow-pointer absolute z-50"
+            style={{
+                top: y - 32,
+                left: x - 12,
+                pointerEvents: 'none',
+            }}
+            initial={{ scale: 1, opacity: 1 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+        >
+            <motion.div
+                style={{
+                    backgroundColor: color,
+                    color: '#333',
+                    padding: '4px 8px',
+                    borderRadius: '12px',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                }}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+            >
+                {/* Avatar */}
+                <img
+                    src={info.avatar}
+                    alt={info.name}
+                    style={{
+                        width: '20px',
+                        height: '20px',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                        border: `2px solid white`,
+                    }}
+                />
+
+                {/* Name */}
+                {info?.name || info?.email}
+            </motion.div>
+
+            {/* Arrow */}
+            <motion.svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                className="arrow"
+                style={{
+                    fill: color,
+                    transform: 'rotate(-70deg)',
+                    marginLeft: '-3px',
+                    marginTop: '-43px',
+                }}
+                width="16"
+                height="16"
+            >
+                <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916a5.657 5.657 0 0 1 .556.103z" />
+            </motion.svg>
+        </motion.div>
+    );
+}
+
+export default FollowPointer;
+
+
+
+
+
+
+
+
+
+// import React from 'react';
+// import { motion } from 'framer-motion';
+// import stringToColor from '@/lib/stringToColor';
+
+// function FollowPointer({
+//     x, y, info
+// }: {
+//     x: number;
+//     y: number;
+//     info: {
+//         name: string;
+//         email: string;
+//         avatar: string;
+//     };
+// }) {
+//     const color = stringToColor(info.email || '1');
+
+//     return (
+//         <motion.div
+//             className="h-4 w-4 rounded-full absolute z-50"
+//             style={{
+//                 top: y,
+//                 left: x,
+//                 pointerEvents: 'none',
+//             }}
+//             initial={{
+//                 scale: 1,
+//                 opacity: 1,
+//             }}
+//             animate={{
+//                 scale: 1,
+//                 opacity: 1,
+//             }}
+//             exit={{
+//                 scale: 0,
+//                 opacity: 0,
+//             }}
+//         >
+//             <svg
+//                 stroke={color}
+//                 fill={color}
+//                 strokeWidth="1"
+//                 viewBox="0 0 16 16"
+//                 className="h-6 w-6 transform rotate-[-70deg] -translate-x-[12px] -translate-y-[10px]"
+//                 style={{ stroke: color, fill: color }}
+//                 height="1em"
+//                 width="1em"
+//                 xmlns="http://www.w3.org/2000/svg"
+//             >
+//                 <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916a5.657 5.657 0 0 1 .556.103z"></path>
+//             </svg>
+
+//             <motion.div
+//                 style={{
+//                     backgroundColor: color,
+//                 }}
+//                 initial={{
+//                     scale: 0.5,
+//                     opacity: 0,
+//                 }}
+//                 animate={{
+//                     scale: 1,
+//                     opacity: 1,
+//                 }}
+//                 exit={{
+//                     scale: 0.5,
+//                     opacity: 0,
+//                 }}
+//             >
+//                 {info?.name || info?.email}
+//             </motion.div>
+//         </motion.div>
+//     );
+// }
+
+// export default FollowPointer;
