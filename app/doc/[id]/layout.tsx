@@ -3,12 +3,13 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
-async function DocLayout(props: {
+type LayoutProps = {
   children: React.ReactNode;
   params: { id: string };
-}) {
-  const params = await props.params; // ✅ await the params wrapper
-  const { id } = params;
+};
+
+export default async function DocLayout({ children, params }: LayoutProps) {
+  const { id } = params; 
 
   const { userId } = await auth();
 
@@ -16,11 +17,35 @@ async function DocLayout(props: {
     redirect('/sign-in');
   }
 
-  return <RoomProvider roomId={id}>{props.children}</RoomProvider>;
+  return <RoomProvider roomId={id}>{children}</RoomProvider>;
 }
 
-export default DocLayout;
+// import RoomProvider from '@/components/RoomProvider';
+// import { auth } from '@clerk/nextjs/server';
+// import { redirect } from 'next/navigation';
+// import React from 'react';
 
+// async function DocLayout({
+//   children,
+//   params,
+// }: {
+//   children: React.ReactNode;
+//   params: {
+//     id: string;
+//   };
+// }) {
+//   // Await params to ensure they're available
+//   const { id } = await params;  // Destructure `id` after awaiting params
+//   const { userId } = await auth();
+
+//   if (!userId) {
+//     redirect('/sign-in'); // Redirect if not authenticated
+//   }
+
+//   return <RoomProvider roomId={id}>{children}</RoomProvider>;
+// }
+
+// export default DocLayout;
 
 
 // import RoomProvider from '@/components/RoomProvider';
