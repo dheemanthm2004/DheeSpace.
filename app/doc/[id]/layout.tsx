@@ -1,23 +1,15 @@
 import RoomProvider from "@/components/RoomProvider";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import type { ReactNode } from "react";
 
-// ✅ NO custom interface — use Next.js built-in Layout props typing
-export default async function Layout({
-  children,
-  params,
-}: {
-  children: ReactNode;
-  params: { id: string }; // ✅ this is the key: make it an inline object, NOT imported
-}) {
+export default async function Layout(props: any) {
   const { userId } = await auth();
 
   if (!userId) {
     redirect("/sign-in");
   }
 
-  return <RoomProvider roomId={params.id}>{children}</RoomProvider>;
+  return <RoomProvider roomId={props.params.id}>{props.children}</RoomProvider>;
 }
 
 // import RoomProvider from '@/components/RoomProvider';
