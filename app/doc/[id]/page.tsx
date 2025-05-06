@@ -1,12 +1,11 @@
 import Document from '@/components/Document';
 
 interface DocumentPageProps {
-  params: { id: string } | Promise<{ id: string }>;
+  params: Promise<{ id: string }>;
 }
 
 async function DocumentPage({ params }: DocumentPageProps) {
-  const resolvedParams = await params;
-  const { id } = resolvedParams;
+  const { id } = await params;
 
   return (
     <div className="flex flex-col flex-1 min-h-screen">

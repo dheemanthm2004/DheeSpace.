@@ -5,12 +5,11 @@ import React from 'react';
 
 interface DocLayoutProps {
   children: React.ReactNode;
-  params: { id: string } | Promise<{ id: string }>;
+  params: Promise<{ id: string }>;
 }
 
 async function DocLayout({ children, params }: DocLayoutProps) {
-  const resolvedParams = await params;
-  const { id } = resolvedParams;
+  const { id } = await params;
   const { userId } = await auth();
 
   if (!userId) {
