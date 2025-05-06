@@ -5,7 +5,7 @@ async function DocumentPage({
 }: {
   params: { id: string };
 }) {
-  const { id } = params; // ✅ NO AWAIT
+  const { id } = params; // DO NOT await params
 
   return (
     <div className="flex flex-col flex-1 min-h-screen">
@@ -15,6 +15,7 @@ async function DocumentPage({
 }
 
 export default DocumentPage;
+
 
 
 // import Document from "@/components/Document";
