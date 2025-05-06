@@ -1,27 +1,23 @@
-import RoomProvider from '@/components/RoomProvider';
-import { auth } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
-import React, { JSX } from 'react';
+import RoomProvider from "@/components/RoomProvider";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import type { ReactNode } from "react";
 
-// ✅ Type explicitly with no confusion
-interface LayoutProps {
-  children: React.ReactNode;
-  params: { id: string }; // Must be plain object, not Promise
-}
-
-export default async function DocLayout({
+// ✅ NO custom interface — use Next.js built-in Layout props typing
+export default async function Layout({
   children,
   params,
-}: LayoutProps): Promise<JSX.Element> {
-  const { id } = params; // ✅ Do NOT await this
-
+}: {
+  children: ReactNode;
+  params: { id: string }; // ✅ this is the key: make it an inline object, NOT imported
+}) {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect('/sign-in');
+    redirect("/sign-in");
   }
 
-  return <RoomProvider roomId={id}>{children}</RoomProvider>;
+  return <RoomProvider roomId={params.id}>{children}</RoomProvider>;
 }
 
 // import RoomProvider from '@/components/RoomProvider';
