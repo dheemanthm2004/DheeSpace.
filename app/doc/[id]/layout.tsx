@@ -1,15 +1,19 @@
 import RoomProvider from '@/components/RoomProvider';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import React from 'react';
+import React, { JSX } from 'react';
 
-type LayoutProps = {
+// ✅ Type explicitly with no confusion
+interface LayoutProps {
   children: React.ReactNode;
-  params: { id: string };
-};
+  params: { id: string }; // Must be plain object, not Promise
+}
 
-export default async function DocLayout({ children, params }: LayoutProps) {
-  const { id } = params; 
+export default async function DocLayout({
+  children,
+  params,
+}: LayoutProps): Promise<JSX.Element> {
+  const { id } = params; // ✅ Do NOT await this
 
   const { userId } = await auth();
 
