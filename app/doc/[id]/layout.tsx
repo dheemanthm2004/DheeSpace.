@@ -1,52 +1,29 @@
-import RoomProvider from "@/components/RoomProvider";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import RoomProvider from '@/components/RoomProvider';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import React from 'react';
 
-export default async function Layout({
+async function DocLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { id: string };
+  params: {
+    id: string;
+  };
 }) {
-  // Authenticate user
+  // Await params to ensure they're available
+  const { id } = await params;  // Destructure `id` after awaiting params
   const { userId } = await auth();
 
   if (!userId) {
-    redirect("/sign-in");  // Redirect if not logged in
+    redirect('/sign-in'); // Redirect if not authenticated
   }
 
-  return <RoomProvider roomId={params.id}>{children}</RoomProvider>;
+  return <RoomProvider roomId={id}>{children}</RoomProvider>;
 }
 
-
-
-// import RoomProvider from '@/components/RoomProvider';
-// import { auth } from '@clerk/nextjs/server';
-// import { redirect } from 'next/navigation';
-// import React from 'react';
-
-// async function DocLayout({
-//   children,
-//   params,
-// }: {
-//   children: React.ReactNode;
-//   params: {
-//     id: string;
-//   };
-// }) {
-//   // Await params to ensure they're available
-//   const { id } = await params;  // Destructure `id` after awaiting params
-//   const { userId } = await auth();
-
-//   if (!userId) {
-//     redirect('/sign-in'); // Redirect if not authenticated
-//   }
-
-//   return <RoomProvider roomId={id}>{children}</RoomProvider>;
-// }
-
-// export default DocLayout;
+export default DocLayout;
 
 
 // import RoomProvider from '@/components/RoomProvider';
