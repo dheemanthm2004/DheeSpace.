@@ -1,13 +1,12 @@
-import Document from "@/components/Document";
+import Document from '@/components/Document';
 
-async function DocumentPage({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) {
-  const { id } = await params;  // Destructure `id` after awaiting params
+interface DocumentPageProps {
+  params: { id: string } | Promise<{ id: string }>;
+}
+
+async function DocumentPage({ params }: DocumentPageProps) {
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
 
   return (
     <div className="flex flex-col flex-1 min-h-screen">
@@ -17,6 +16,27 @@ async function DocumentPage({
 }
 
 export default DocumentPage;
+
+
+// import Document from "@/components/Document";
+
+// async function DocumentPage({
+//   params,
+// }: {
+//   params: {
+//     id: string;
+//   };
+// }) {
+//   const { id } = await params;  // Destructure `id` after awaiting params
+
+//   return (
+//     <div className="flex flex-col flex-1 min-h-screen">
+//       <Document id={id} />
+//     </div>
+//   );
+// }
+
+// export default DocumentPage;
 
 
 // import Document from "@/components/Document";
