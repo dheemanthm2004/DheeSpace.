@@ -2,17 +2,18 @@ import RoomProvider from "@/components/RoomProvider";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-// Explicitly define types for props
-type LayoutProps = {
+export default async function Layout({
+  children,
+  params,
+}: {
   children: React.ReactNode;
   params: { id: string };
-};
-
-export default async function Layout({ children, params }: LayoutProps) {
+}) {
+  // Authenticate user
   const { userId } = await auth();
 
   if (!userId) {
-    redirect("/sign-in");
+    redirect("/sign-in");  // Redirect if not logged in
   }
 
   return <RoomProvider roomId={params.id}>{children}</RoomProvider>;

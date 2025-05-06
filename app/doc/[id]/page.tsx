@@ -5,7 +5,7 @@ async function DocumentPage({
 }: {
   params: { id: string };
 }) {
-  const { id } = params; // DO NOT await params
+  const { id } = params;  // Destructure `params` directly
 
   return (
     <div className="flex flex-col flex-1 min-h-screen">
