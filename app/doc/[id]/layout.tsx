@@ -2,15 +2,22 @@ import RoomProvider from "@/components/RoomProvider";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-export default async function Layout(props: any) {
+export default async function Layout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { id: string };
+}) {
   const { userId } = await auth();
 
   if (!userId) {
     redirect("/sign-in");
   }
 
-  return <RoomProvider roomId={props.params.id}>{props.children}</RoomProvider>;
+  return <RoomProvider roomId={params.id}>{children}</RoomProvider>;
 }
+
 
 // import RoomProvider from '@/components/RoomProvider';
 // import { auth } from '@clerk/nextjs/server';
