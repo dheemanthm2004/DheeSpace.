@@ -209,9 +209,7 @@ body {
 }
 
 /* Apply Neon to Name Text */
-.text-center {
-    animation: neonPulse 1.5s infinite alternate;
-}
+
 
 /* Global Styles for Follow Pointer */
 .follow-pointer-container {
