@@ -47,9 +47,32 @@ import Sidebar from "@/components/Sidebar";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "AI Notion Clone",
+  title: "DheeSpace",
   description: "Real-time collaboration with Gen-Z aesthetics.",
+  openGraph: {
+    title: "DheeSpace",
+    description: "Real-time collaboration with Gen-Z aesthetics.",
+    url: "https://dhee-space.vercel.app",
+    siteName: "DheeSpace",
+    images: [
+      {
+        url: "https://i.ibb.co/4nDBbjRn/Screenshot-2025-05-08-011926.png", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "DheeSpace Preview Image",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DheeSpace",
+    description: "Real-time collaboration with Gen-Z aesthetics.",
+    images: ["https://i.ibb.co/4nDBbjRn/Screenshot-2025-05-08-011926.png"], // Replace this
+  },
 };
+
 
 export default function RootLayout({
   children,
