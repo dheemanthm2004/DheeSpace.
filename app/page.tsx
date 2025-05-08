@@ -1,18 +1,3 @@
-// import { ArrowLeftCircle } from "lucide-react";
-
-// export default function Home() {
-//   return (
-//     <main className="flex items-center gap-3 p-1 animate-pulse text-gray-800">
-//       {/* Left Arrow Icon */}
-//       <ArrowLeftCircle className="w-10 h-10 text-gray-600" />
-
-//       {/* Text */}
-//       <h1 className="text-lg font-semibold">
-//         Get started with creating a <span className="underline">New Document</span>
-//       </h1>
-//     </main>
-//   );
-// }
 'use client'
 
 import NewDocumentButton from '@/components/NewDocumentButton'
@@ -23,29 +8,29 @@ export default function Home() {
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-white to-purple-200 px-4">
       <div className="text-center space-y-6 max-w-xl">
         
-        {/* DheeSpace logo aesthetic */}
+        {/* Logo */}
         <div className="text-5xl font-extrabold bg-gradient-to-r from-fuchsia-500 via-purple-500 to-pink-400 text-transparent bg-clip-text drop-shadow tracking-widest">
           DheeSpace
         </div>
 
-        {/* Hero Title */}
-        <h1 className="text-3xl sm:text-5xl font-semibold text-gray-900 tracking-tight leading-tight drop-shadow-sm">
+        {/* Hero Title - made slightly smaller */}
+        <h1 className="text-2xl sm:text-4xl font-semibold text-gray-900 tracking-tight leading-snug drop-shadow-sm">
           Your space to think, write & vibe together.
         </h1>
 
-        {/* Subtext */}
-        <p className="text-base sm:text-lg text-gray-700 leading-relaxed font-light">
-          Real-time docs. Live cursors. AI that actually listens.  
-          Temporary or not, you’re always welcome here.
+        {/* Subtext - also slightly smaller */}
+        <p className="text-sm sm:text-base text-gray-700 leading-relaxed font-light">
+          Real-time docs. Live cursors. Chat & translate built-in.  
+          Export to PDF/DOCX. Temporary or not, you’re always welcome here.
         </p>
 
         {/* Feature Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-600 pt-2 px-4">
           {[
             "📝 Create docs solo or with friends",
-            "🤝 Invite & collaborate in real-time",
-            "⚡️ No login? No problem – temp docs temp docs for you!",
-            "🌍 Translate, summarize, vibe instantly"
+            "🌍 AI Chat & Translate",
+            "⚡️ Temporary docs = no login needed",
+            "📤 Export to PDF or Word"
           ].map((text, idx) => (
             <div
               key={idx}
@@ -56,19 +41,17 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Call to Action Buttons */}
+        {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-6">
           <NewDocumentButton />
           <TemporaryDocumentButton />
         </div>
 
-        {/* Friendly tagline */}
+        {/* Tagline */}
         <p className="text-xs text-gray-500 pt-4 italic">
-          Built for the bold. No login required. Just start.
+          Made with ❤️ by the Dheem!
         </p>
       </div>
     </main>
   )
 }
-
-

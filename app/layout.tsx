@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "DheeSpace",
     description: "Real-time collaboration with Gen-Z aesthetics.",
-    url: "https://dhee-space.vercel.app",
+    url: "https://dheespace.vercel.app",
     siteName: "DheeSpace",
     images: [
       {
-        url: "https://i.postimg.cc/mk8CRPV7/Screenshot-2025-05-08-192734.png", // Replace with your actual image URL
+        url: "https://i.postimg.cc/yYspCNFd/Screenshot-2025-05-08-223558.png", // Replace with your actual image URL
         width: 1200,
         height: 630,
         alt: "DheeSpace Preview Image",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DheeSpace",
     description: "Real-time collaboration with Gen-Z aesthetics.",
-    images: ["https://i.postimg.cc/mk8CRPV7/Screenshot-2025-05-08-192734.png"], // Replace this
+    images: ["https://i.postimg.cc/yYspCNFd/Screenshot-2025-05-08-223558.png"], // Replace this
   },
 };
 
@@ -78,7 +78,7 @@ export default function RootLayout({
 //     siteName: "DheeSpace",
 //     images: [
 //       {
-//         url: "https://i.postimg.cc/mk8CRPV7/Screenshot-2025-05-08-192734.png", // Replace with your actual image URL
+//         url: "https://i.postimg.cc/yYspCNFd/Screenshot-2025-05-08-223558.png", // Replace with your actual image URL
 //         width: 1200,
 //         height: 630,
 //         alt: "DheeSpace Preview Image",
@@ -91,7 +91,7 @@ export default function RootLayout({
 //     card: "summary_large_image",
 //     title: "DheeSpace",
 //     description: "Real-time collaboration with Gen-Z aesthetics.",
-//     images: ["https://i.postimg.cc/mk8CRPV7/Screenshot-2025-05-08-192734.png"], // Replace this
+//     images: ["https://i.postimg.cc/yYspCNFd/Screenshot-2025-05-08-223558.png"], // Replace this
 //   },
 // };
 

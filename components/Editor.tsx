@@ -109,6 +109,7 @@ import "@blocknote/shadcn/style.css";
 import stringToColor from '@/lib/stringToColor';
 import TranslateDocument from './TranslateDocument';
 import ChatToDocument from './ChatToDocument';
+import ExportDocument from './ExportDocument';
 
 type EditorProps = {
     darkMode: boolean;
@@ -133,7 +134,7 @@ function BlockNote({ doc, provider, darkMode, setEditorInstance }: EditorProps) 
 
     useEffect(() => {
       setEditorInstance(editor);
-    }, [editor]);
+    }, [editor, setEditorInstance]);
   
     return (
       <div className="relative max-w-6xl mx-auto">
@@ -172,24 +173,27 @@ function Editor() {
     }`;
   
     return (
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center gap-2 justify-end mb-10">
-  {editorInstance && <TranslateDocument editor={editorInstance} />}
-  {editorInstance && <ChatToDocument editor={editorInstance} />}
-  <Button className={style} onClick={() => setDarkMode(!darkMode)}>
-    {darkMode ? <SunIcon /> : <MoonIcon />}
-  </Button>
+      <>
+        <div className="max-w-6xl mx-auto">
+  <div className="flex items-center gap-2 justify-end mb-10">
+    {editorInstance && <TranslateDocument editor={editorInstance} />}
+    {editorInstance && <ChatToDocument editor={editorInstance} />}
+    {editorInstance && <ExportDocument editor={editorInstance} />}
+    <Button className={style} onClick={() => setDarkMode(!darkMode)}>
+      {darkMode ? <SunIcon /> : <MoonIcon />}
+    </Button>
+   
+  </div>
+  {doc && provider && (
+    <BlockNote 
+      doc={doc} 
+      provider={provider} 
+      darkMode={darkMode}
+      setEditorInstance={setEditorInstance}
+    />
+  )}
 </div>
-  
-        {doc && provider && (
-          <BlockNote 
-            doc={doc} 
-            provider={provider} 
-            darkMode={darkMode}
-            setEditorInstance={setEditorInstance}
-          />
-        )}
-      </div>
+      </>
     );
 }
 
