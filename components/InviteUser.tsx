@@ -26,7 +26,7 @@ function InviteUser() {
 
     const handleInvite = async (e: FormEvent ) => { 
         e.preventDefault();
-        const roomId = pathname.split("/").pop();
+        const roomId = pathname?.split("/").pop();
         if (!roomId) return;
       
       

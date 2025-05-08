@@ -23,7 +23,8 @@ function DeleteDocument() {
     const router=useRouter();
 
     const handleDelete = async () => {
-        const roomId = pathname.split("/").pop();
+        const roomId = pathname?.split("/").pop();
+        if (!roomId) return;
         if (!roomId) return;
       
         startTransition(async () => {
