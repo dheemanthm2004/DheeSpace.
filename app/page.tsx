@@ -44,7 +44,7 @@ export default function Home() {
           {[
             "📝 Create docs solo or with friends",
             "🤝 Invite & collaborate in real-time",
-            "⚡️ No login? No problem – temp docs FTW",
+            "⚡️ No login? No problem – temp docs temp docs for you!",
             "🌍 Translate, summarize, vibe instantly"
           ].map((text, idx) => (
             <div
