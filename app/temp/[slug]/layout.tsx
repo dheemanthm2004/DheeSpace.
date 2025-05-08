@@ -1,9 +1,16 @@
-import RoomProvider from '@/components/RoomProvider'
+import RoomProvider from '@/components/RoomProvider';
+import { ReactNode } from 'react';
 
-export default function TempLayout({ children, params }: {
-  children: React.ReactNode
-  params: { slug: string }
-}) {
-  const roomId = `temp-${params.slug}`
-  return <RoomProvider roomId={roomId}>{children}</RoomProvider>
+interface TempLayoutProps {
+  children: ReactNode;
+  params: Promise<{ slug: string }>;
 }
+
+async function TempLayout({ children, params }: TempLayoutProps) {
+  const { slug } = await params;
+  const roomId = `temp-${slug}`;
+  
+  return <RoomProvider roomId={roomId}>{children}</RoomProvider>;
+}
+
+export default TempLayout;

@@ -1,14 +1,18 @@
-import Document from '@/components/Document'
+import Document from '@/components/Document';
 
 interface TempPageProps {
-  params: { slug: string }
+  params: Promise<{ slug: string }>;
 }
 
-export default function TempPage({ params }: TempPageProps) {
-  const tempId = `temp-${params.slug}`
+async function TempPage({ params }: TempPageProps) {
+  const { slug } = await params;
+  const tempId = `temp-${slug}`;
+  
   return (
     <div className="flex flex-col flex-1 min-h-screen">
       <Document id={tempId} isTemporary />
     </div>
-  )
+  );
 }
+
+export default TempPage;
