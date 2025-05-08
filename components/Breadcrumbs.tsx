@@ -15,7 +15,7 @@ import {
 function Breadcrumbs() {
     const path=usePathname();
     //url
-    const segments=path.split("/");
+    const segments = path ? path.split("/") : [];
     return (
         <Breadcrumb>
           <BreadcrumbList>
