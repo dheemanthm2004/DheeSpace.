@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: "DheeSpace",
     images: [
       {
-        url: "http://i.postimg.cc/8cZCzsjS/Screenshot-2025-05-08-021017.png", // Replace with your actual image URL
+        url: "https://i.postimg.cc/cCQLW2mY/Screenshot-2025-05-08-191205.png", // Replace with your actual image URL
         width: 1200,
         height: 630,
         alt: "DheeSpace Preview Image",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DheeSpace",
     description: "Real-time collaboration with Gen-Z aesthetics.",
-    images: ["http://i.postimg.cc/8cZCzsjS/Screenshot-2025-05-08-021017.png"], // Replace this
+    images: ["https://i.postimg.cc/cCQLW2mY/Screenshot-2025-05-08-191205.png"], // Replace this
   },
 };
 
@@ -78,7 +78,7 @@ export default function RootLayout({
 //     siteName: "DheeSpace",
 //     images: [
 //       {
-//         url: "http://i.postimg.cc/8cZCzsjS/Screenshot-2025-05-08-021017.png", // Replace with your actual image URL
+//         url: "https://i.postimg.cc/cCQLW2mY/Screenshot-2025-05-08-191205.png", // Replace with your actual image URL
 //         width: 1200,
 //         height: 630,
 //         alt: "DheeSpace Preview Image",
@@ -91,7 +91,7 @@ export default function RootLayout({
 //     card: "summary_large_image",
 //     title: "DheeSpace",
 //     description: "Real-time collaboration with Gen-Z aesthetics.",
-//     images: ["http://i.postimg.cc/8cZCzsjS/Screenshot-2025-05-08-021017.png"], // Replace this
+//     images: ["https://i.postimg.cc/cCQLW2mY/Screenshot-2025-05-08-191205.png"], // Replace this
 //   },
 // };
 

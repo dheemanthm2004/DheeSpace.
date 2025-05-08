@@ -114,24 +114,26 @@ type EditorProps = {
     darkMode: boolean;
     doc: Y.Doc;
     provider: LiveblocksYjsProvider;
+    setEditorInstance: (editor: BlockNoteEditor) => void;
 };
 
-function BlockNote({ doc, provider, darkMode }: EditorProps) {
+function BlockNote({ doc, provider, darkMode, setEditorInstance }: EditorProps) {
     const userInfo = useSelf((me) => me.info);
   
-    // Initialize Yjs Map for document store
-    const documentStore = doc.getMap("document-store");
-    
     const editor: BlockNoteEditor = useCreateBlockNote({
       collaboration: {
         provider,
-        fragment: doc.getXmlFragment("blocknote"), // Separate fragment for BlockNote
+        fragment: doc.getXmlFragment("blocknote"),
         user: {
           name: userInfo?.name || "Anonymous",
           color: stringToColor(userInfo?.email || "default@email.com"),
         },
       },
     });
+
+    useEffect(() => {
+      setEditorInstance(editor);
+    }, [editor]);
   
     return (
       <div className="relative max-w-6xl mx-auto">
@@ -149,13 +151,10 @@ function Editor() {
     const [doc, setDoc] = useState<Y.Doc>();
     const [provider, setProvider] = useState<LiveblocksYjsProvider>();
     const [darkMode, setDarkMode] = useState(false);
+    const [editorInstance, setEditorInstance] = useState<BlockNoteEditor>();
   
     useEffect(() => {
       const yDoc = new Y.Doc();
-      
-      // Initialize core document store
-      yDoc.getMap("document-store"); 
-      
       const yProvider = new LiveblocksYjsProvider(room, yDoc);
       setDoc(yDoc);
       setProvider(yProvider);
@@ -175,15 +174,20 @@ function Editor() {
     return (
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center gap-2 justify-end mb-10">
-          {doc && <TranslateDocument doc={doc} />}
-          {doc && <ChatToDocument doc={doc} />}
-          <Button className={style} onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? <SunIcon /> : <MoonIcon />}
-          </Button>
-        </div>
+  {editorInstance && <TranslateDocument editor={editorInstance} />}
+  {editorInstance && <ChatToDocument editor={editorInstance} />}
+  <Button className={style} onClick={() => setDarkMode(!darkMode)}>
+    {darkMode ? <SunIcon /> : <MoonIcon />}
+  </Button>
+</div>
   
         {doc && provider && (
-          <BlockNote doc={doc} provider={provider} darkMode={darkMode} />
+          <BlockNote 
+            doc={doc} 
+            provider={provider} 
+            darkMode={darkMode}
+            setEditorInstance={setEditorInstance}
+          />
         )}
       </div>
     );

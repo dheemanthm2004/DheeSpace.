@@ -1,150 +1,120 @@
 "use client";
-import * as Y from 'yjs';
-import React, { FormEvent } from 'react';
 import {
-    Dialog,
-   
-    DialogContent,
-    DialogDescription,
- 
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+import { FormEvent, useState, useTransition } from "react";
 import { Button } from "./ui/button";
-
-import { BotIcon, LanguagesIcon } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from "sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { LanguagesIcon, MessageCircleCode } from "lucide-react";
 import Markdown from "react-markdown";
+import { BlockNoteEditor } from "@blocknote/core";
 
-type Language =
-    | "english" | "hindi" | "kannada" | "spanish" | "french"
-    | "german" | "chinese" | "japanese" | "korean" | "arabic"
-    | "russian" | "portuguese" | "bengali" | "tamil" | "telugu"
-    | "marathi" | "urdu" | "gujarati" | "punjabi" | "malayalam";
+const SUPPORTED_LANGUAGES = [
+  "english", "hindi", "kannada", "spanish", "french", "german",
+  "chinese", "japanese", "korean", "arabic", "russian", "portuguese",
+  "bengali", "tamil", "telugu", "marathi", "urdu", "gujarati",
+  "punjabi", "malayalam"
+] as const;
 
-const languages: Language[] = [
-    "english", "hindi", "kannada", "spanish", "french", "german",
-    "chinese", "japanese", "korean", "arabic", "russian", "portuguese",
-    "bengali", "tamil", "telugu", "marathi", "urdu", "gujarati",
-    "punjabi", "malayalam"
-];
+function TranslateDocument({ editor }: { editor: BlockNoteEditor }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [language, setLanguage] = useState("spanish");
+  const [translatedContent, setTranslatedContent] = useState("");
 
-function TranslateDocument({ doc }: { doc: Y.Doc }) {
-    const [isOpen, setIsOpen] = React.useState(false);
-    const [language, setLanguage] = React.useState<string>("");
-    const [summary, setSummary] = React.useState("");
-    const [question] = React.useState("");
-    const [isPending, startTransition] = React.useTransition();
+  const handleTranslate = async (e: FormEvent) => {
+    e.preventDefault();
 
-    const handleAskQuestion = async (e: FormEvent) => {
-        e.preventDefault();
+    startTransition(async () => {
+      try {
+        const documentContent = await editor.blocksToMarkdownLossy(editor.document);
 
-        startTransition(async () => {
-            const documentData = doc.get("document-store").toJSON();
-
-            const res = await fetch(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/translateDocument`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        documentData,
-                        targetLang: language,
-                    }),
-                }
-            );
-            if (res.ok) {
-                const { translated_text } = await res.json();
-                setSummary(translated_text);
-                toast.success("Document translated successfully!");
-            }
+        const res = await fetch("/api/translateDocument", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            content: documentContent,
+            targetLang: language,
+          }),
         });
-    };
 
-    return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <Button asChild variant="outline">
-                <DialogTrigger>
-                    <LanguagesIcon />
-                    Translate
-                </DialogTrigger>
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || "Translation failed");
+        
+        setTranslatedContent(data.translatedText);
+        toast.success("Document translated!");
+      } catch (error) {
+        toast.error(
+          error instanceof Error ? error.message : "Translation service unavailable"
+        );
+      }
+    });
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <Button asChild variant="outline">
+        <DialogTrigger>
+          <LanguagesIcon className="mr-2 h-4 w-4" />
+          Translate Document
+        </DialogTrigger>
+      </Button>
+      <DialogContent className="max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>Document Translation</DialogTitle>
+          <DialogDescription>
+            Translate the current document to another language
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-4">
+          {translatedContent && (
+            <div className="p-4 border rounded-md">
+              <div className="prose prose-sm max-w-none">
+                <Markdown>{translatedContent}</Markdown>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <form onSubmit={handleTranslate} className="mt-4">
+          <div className="flex gap-2">
+            <Select
+              value={language}
+              onValueChange={(value) => setLanguage(value)}
+              disabled={isPending}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select language" />
+              </SelectTrigger>
+              <SelectContent>
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <SelectItem key={lang} value={lang}>
+                    {lang.charAt(0).toUpperCase() + lang.slice(1)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Translating..." : "Translate"}
             </Button>
-
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Translate the Document</DialogTitle>
-                    <DialogDescription>
-                        Select the language and AI will translate a summary of the document in selected language.
-                    </DialogDescription>
-                    <hr className='mt-5' />
-
-                    {question && (
-                        <p className='mt-5 text-gray-500'>Q: {question}</p>
-                    )}
-                </DialogHeader>
-
-                {summary && (
-                    <div className="flex flex-col items-start max-h-96 overflow-y-scroll gap-2 p-5 bg-gray-100">
-                        <div className="flex items-center gap-2">
-                            <BotIcon className="w-4 h-4 text-gray-500" />
-                            <p className="text-gray-500 text-sm">
-                                AI {isPending ? "is processing..." : "translated a summary"}
-                            </p>
-                        </div>
-                        <div className="text-sm text-gray-700 w-full">
-                            {isPending ? "Thinking..." : <Markdown>{summary}</Markdown>}
-                        </div>
-                    </div>
-                )}
-
-                <form
-                    className="flex gap-2 mt-4"
-                    onSubmit={handleAskQuestion}
-                >
-                    <Select
-                        value={language}
-                        onValueChange={(value) => setLanguage(value)}
-                    >
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Select Language" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Languages</SelectLabel>
-                                {languages.map((lang) => (
-                                    <SelectItem key={lang} value={lang}>
-                                        {lang.charAt(0).toUpperCase() + lang.slice(1)}
-                                    </SelectItem>
-                                ))}
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-
-                    <Button
-                        type="submit"
-                        disabled={!language || isPending}
-                    >
-                        {isPending ? "Translating..." : "Translate"}
-                    </Button>
-                </form>
-            </DialogContent>
-        </Dialog>
-    );
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
 }
 
 export default TranslateDocument;
+
 
 
 

@@ -14,8 +14,9 @@ import { toast } from "sonner";
 import { Input } from "./ui/input";
 import { BotIcon, MessageCircleCode } from "lucide-react";
 import Markdown from "react-markdown";
+import { BlockNoteEditor } from "@blocknote/core";
 
-function ChatToDocument({ doc }: { doc: Y.Doc }) {
+function ChatToDocument({ editor }: { editor: BlockNoteEditor }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [input, setInput] = useState("");
@@ -25,12 +26,11 @@ function ChatToDocument({ doc }: { doc: Y.Doc }) {
 
   const handleAskQuestion = async (e: FormEvent) => {
     e.preventDefault();
-
     startTransition(async () => {
       try {
-        // Ensure documentData is a string!
-        const documentData = JSON.stringify(doc.getMap("document-store").toJSON());
-
+        // Correct method to get Markdown content
+        const documentData = await editor.blocksToMarkdownLossy(editor.document);
+        
         const res = await fetch("/api/chatToDocument", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
