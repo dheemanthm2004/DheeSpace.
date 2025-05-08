@@ -16,6 +16,7 @@
 'use client'
 import { ArrowRight } from "lucide-react";
 import NewDocumentButton from '@/components/NewDocumentButton';
+import TemporaryDocumentButton from '@/components/TemporaryDocumentButton'
 
 export default function Home() {
   return (
@@ -57,9 +58,10 @@ export default function Home() {
 
         {/* Call to action */}
         <div className="inline-flex items-center gap-2 pt-6">
-          <NewDocumentButton />
-          <ArrowRight className="w-5 h-5 text-black" />
-        </div>
+  <NewDocumentButton />
+  <TemporaryDocumentButton />
+</div>
+
       </div>
     </main>
   );

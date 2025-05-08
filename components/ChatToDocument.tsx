@@ -1,115 +1,108 @@
 "use client";
-import * as Y from 'yjs';
+import * as Y from "yjs";
 import {
   Dialog,
-
   DialogContent,
   DialogDescription,
-  
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { FormEvent, useState, useTransition } from "react";
 import { Button } from "./ui/button";
-
 import { toast } from "sonner";
 import { Input } from "./ui/input";
-import { BotIcon, MessageCircleCode } from 'lucide-react';
-import Markdown from 'react-markdown';
+import { BotIcon, MessageCircleCode } from "lucide-react";
+import Markdown from "react-markdown";
 
 function ChatToDocument({ doc }: { doc: Y.Doc }) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isPending, startTransition] = useTransition();
-    const [input, setInput] = useState("");
-    const[summary,setSummary]=useState("");
-    const[question,setQuestion]=useState("");
-    const handleAskQuestion = async (e: FormEvent ) => { 
-        e.preventDefault();
-        setQuestion(input);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [input, setInput] = useState("");
+  const [conversation, setConversation] = useState<
+    { question: string; answer: string }[]
+  >([]);
 
-            startTransition(async () => {
-                const documentData = doc.get("document-store").toJSON();
+  const handleAskQuestion = async (e: FormEvent) => {
+    e.preventDefault();
 
-                const res= await fetch(
-                    `${process.env.NEXT_PUBLIC_BASE_URL}/chatToDocument`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        question: input,
-                        documentData,
-                    }),
-                });
-                if (res.ok) {
-                    const { message } = await res.json();
-                    
-                    setInput("");
-                    setSummary(message);
-                    toast.success("AI is thinking...");
-                }
-            }
-            )
-            
-        
-      };
-      
+    startTransition(async () => {
+      try {
+        // Ensure documentData is a string!
+        const documentData = JSON.stringify(doc.getMap("document-store").toJSON());
+
+        const res = await fetch("/api/chatToDocument", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            question: input,
+            documentData,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || "Unknown error");
+
+        setConversation((prev) => [
+          ...prev,
+          { question: input, answer: data.message },
+        ]);
+        setInput("");
+        toast.success("AI responded!");
+      } catch (error) {
+        toast.error(
+          error instanceof Error ? error.message : "AI service unavailable"
+        );
+      }
+    });
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <Button 
-        asChild
-        variant="outline">
-      <DialogTrigger>
-        <MessageCircleCode className="mr-2 h-4 w-4" />
-        Chat to Document
-      </DialogTrigger>
-        </Button>
-      <DialogContent>
+      <Button asChild variant="outline">
+        <DialogTrigger>
+          <MessageCircleCode className="mr-2 h-4 w-4" />
+          Chat to Document
+        </DialogTrigger>
+      </Button>
+      <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>
-            Ask Questions to Document
-          </DialogTitle>
+          <DialogTitle>Document AI Assistant</DialogTitle>
           <DialogDescription>
-            Enter your question and get the answer from the document.
-            <br />
-            </DialogDescription>
-            <hr  className='mt-5'/>
-            {
-                question && <p className='mt-5 text-gray-500'>Q:{question}</p>
-            }
+            Ask questions about the current document
+          </DialogDescription>
         </DialogHeader>
-        {summary && (
-                    <div className="flex flex-col items-start max-h-96 overflow-y-scroll gap-2 p-5 bg-gray-100">
-                        <div className="flex items-center gap-2">
-                            <BotIcon className="w-4 h-4 text-gray-500" />
-                            <p className="text-gray-500 text-sm">
-                                AI {isPending ? "is processing..." : "translated a summary"}
-                            </p>
-                        </div>
-                        <div className="text-sm text-gray-700 w-full">
-                            {isPending ? "Thinking..." : <Markdown>{summary}</Markdown>}
-                        </div>
-                    </div>
-                )}
-  
-        <form 
-        className="flex gap-2"
-        onSubmit={handleAskQuestion}>
+
+        <div className="space-y-4 max-h-[500px] overflow-y-auto">
+          {conversation.map((item, index) => (
+            <div key={index} className="space-y-2">
+              <div className="flex items-center gap-2 text-sm text-primary">
+                <span className="font-semibold">You:</span>
+                {item.question}
+              </div>
+              <div className="flex items-start gap-2 text-sm">
+                <BotIcon className="w-4 h-4 mt-1 text-muted-foreground" />
+                <div className="prose prose-sm max-w-none">
+                  <Markdown>{item.answer}</Markdown>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <form onSubmit={handleAskQuestion} className="mt-4">
+          <div className="flex gap-2">
             <Input
-             type="text"
-                placeholder="Enter your question"
-                className="w-full"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                required
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask about the document..."
+              disabled={isPending}
             />
-            <Button
-            type="submit"
-            disabled={!input || isPending}
-            >
-            {isPending ? "Asking..." : "Ask"}
+            <Button type="submit" disabled={!input || isPending}>
+              {isPending ? "Asking..." : "Ask"}
             </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
