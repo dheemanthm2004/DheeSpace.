@@ -1,78 +1,63 @@
-// pages/api/exportPdf.js
-
-const isVercel =
-  !!process.env.AWS_LAMBDA_FUNCTION_VERSION ||
-  !!process.env.VERCEL ||
-  process.env.NODE_ENV === "production";
+import { marked } from "marked";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  let puppeteer, chromium;
-  if (isVercel) {
-    puppeteer = require("puppeteer-core");
-    chromium = require("@sparticuz/chromium");
-  } else {
-    puppeteer = require("puppeteer");
-  }
-
   try {
-    const { htmlContent, fileName } = req.body;
+    const { markdown, fileName } = req.body;
+    const token = process.env.BROWSERLESS_TOKEN;
 
-    const launchOptions = isVercel
-      ? {
-          args: chromium.args,
-          executablePath: await chromium.executablePath,
-          headless: chromium.headless,
-          defaultViewport: chromium.defaultViewport,
+    if (!token) {
+      return res.status(500).json({ error: "No browserless token set" });
+    }
+
+    // Convert markdown to HTML
+    const htmlBody = marked.parse(markdown);
+
+    const htmlContent = `
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <title>Exported PDF</title>
+          <style>
+            body { font-family: Helvetica, Arial, sans-serif; padding: 40px; }
+            img, video { max-width: 100%; }
+            h1,h2,h3,h4,h5,h6 { color: #3b82f6; }
+            pre, code { background: #f3f4f6; padding: 2px 4px; border-radius: 4px; }
+            blockquote { border-left: 4px solid #3b82f6; padding-left: 12px; color: #555; }
+            a { color: #2563eb; text-decoration: underline; }
+          </style>
+        </head>
+        <body>
+          ${htmlBody}
+        </body>
+      </html>
+    `;
+
+    const browserlessUrl = `https://chrome.browserless.io/pdf?token=${token}`;
+    const response = await fetch(browserlessUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        html: htmlContent,
+        options: {
+          printBackground: true,
+          format: "A4",
+          margin: { top: "40px", bottom: "40px", left: "30px", right: "30px" }
         }
-      : {
-          headless: true,
-        };
-
-    const browser = await puppeteer.launch(launchOptions);
-    const page = await browser.newPage();
-
-    await page.setContent(htmlContent, { waitUntil: "networkidle0" });
-
-    await page.evaluate(async () => {
-      const images = Array.from(document.images);
-      await Promise.all(
-        images.map((img) => {
-          if (img.complete) return;
-          return new Promise((resolve) => {
-            img.onload = img.onerror = resolve;
-          });
-        })
-      );
-      const videos = Array.from(document.querySelectorAll("video"));
-      await Promise.all(
-        videos.map((video) => {
-          if (video.readyState >= 2) return;
-          return new Promise((resolve) => {
-            video.onloadeddata = video.onerror = resolve;
-          });
-        })
-      );
+      })
     });
 
-    const pdfBuffer = await page.pdf({
-      format: "A4",
-      printBackground: true,
-      margin: { top: 40, bottom: 40, left: 30, right: 30 },
-    });
-
-    await browser.close();
+    if (!response.ok) {
+      const errText = await response.text();
+      return res.status(500).json({ error: "Browserless PDF export failed", details: errText });
+    }
+    const pdfBuffer = await response.arrayBuffer();
 
     res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename="${fileName || "document"}.pdf"`
-    );
+    res.setHeader("Content-Disposition", `attachment; filename="${fileName || 'document'}.pdf"`);
     res.send(Buffer.from(pdfBuffer));
   } catch (err) {
-    res
-      .status(500)
-      .json({ error: "PDF generation failed", details: err.message });
+    res.status(500).json({ error: "PDF generation failed", details: err.message });
   }
 }

@@ -139,6 +139,7 @@
 //     </div>
 //   );
 // }
+
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "./ui/button";
@@ -148,7 +149,6 @@ import { BlockNoteEditor } from "@blocknote/core";
 import { DOCXExporter, docxDefaultSchemaMappings } from "@blocknote/xl-docx-exporter";
 import { Packer } from "docx";
 import React from "react";
-import { marked } from "marked";
 
 export default function ExportDocument({ editor }: { editor: BlockNoteEditor }) {
   const [open, setOpen] = useState(false);
@@ -164,32 +164,6 @@ export default function ExportDocument({ editor }: { editor: BlockNoteEditor }) 
     if (open) document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open]);
-
-  // Helper: convert BlockNote to HTML (basic version)
- const getHtmlContent = async () => {
-  const markdown = await editor.blocksToMarkdownLossy(editor.document);
-  const htmlBody = marked.parse(markdown);
-  return `
-    <html>
-      <head>
-        <meta charset="utf-8" />
-        <title>Exported PDF</title>
-        <style>
-          body { font-family: Helvetica, Arial, sans-serif; padding: 40px; }
-          img, video { max-width: 100%; }
-          h1,h2,h3,h4,h5,h6 { color: #3b82f6; }
-          pre, code { background: #f3f4f6; padding: 2px 4px; border-radius: 4px; }
-          blockquote { border-left: 4px solid #3b82f6; padding-left: 12px; color: #555; }
-          a { color: #2563eb; text-decoration: underline; }
-        </style>
-      </head>
-      <body>
-        ${htmlBody}
-      </body>
-    </html>
-  `;
-};
-
 
   const handleExport = async (type: "docx" | "pdf") => {
     try {
@@ -210,7 +184,7 @@ export default function ExportDocument({ editor }: { editor: BlockNoteEditor }) 
         URL.revokeObjectURL(url);
         toast.success("Exported as DOCX!");
       } else {
-        const htmlContent = await getHtmlContent();
+        const markdown = await editor.blocksToMarkdownLossy(editor.document);
         const fileName = "document";
         toast.info("Generating PDF, please wait...");
 
@@ -218,14 +192,14 @@ export default function ExportDocument({ editor }: { editor: BlockNoteEditor }) 
         const controller = new AbortController();
         const timeoutId = setTimeout(() => {
           controller.abort();
-        }, 5000); // 5 seconds
+        }, 20000); // 20 seconds for browserless
 
         let didTimeout = false;
         try {
           const res = await fetch("/api/exportPdf", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ htmlContent, fileName }),
+            body: JSON.stringify({ markdown, fileName }),
             signal: controller.signal,
           });
           clearTimeout(timeoutId);
