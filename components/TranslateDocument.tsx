@@ -25,7 +25,7 @@ const SUPPORTED_LANGUAGES = [
 function TranslateDocument({ editor }: { editor: BlockNoteEditor }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const [language, setLanguage] = useState("spanish");
+  const [language, setLanguage] = useState("kannada");
   const [translatedContent, setTranslatedContent] = useState("");
 
   const handleTranslate = async (e: FormEvent) => {
