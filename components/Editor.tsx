@@ -185,7 +185,7 @@ function Editor() {
         <div className="flex flex-wrap items-center gap-2 justify-end mb-6">
           {editorInstance && <TranslateDocument editor={editorInstance} />}
           {editorInstance && <ChatToDocument editor={editorInstance} />}
-          {editorInstance && <UploadButton editor={editorInstance} />}
+          {/* {editorInstance && <UploadButton editor={editorInstance} />} */}
           {editorInstance && <ExportDocument editor={editorInstance} />}
           <Button className={style} onClick={() => setDarkMode(!darkMode)}>
             {darkMode ? <SunIcon /> : <MoonIcon />}
