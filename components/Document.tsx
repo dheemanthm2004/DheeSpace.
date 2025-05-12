@@ -68,6 +68,13 @@ function Document({ id, isTemporary = false }: { id: string; isTemporary?: boole
             <>
               <InviteUser />
               <DeleteDocument />
+              
+            </>
+          )}
+           {isTemporary && isOwner && (
+            <>
+              
+              <DeleteDocument />
             </>
           )}
         </form>

@@ -48,7 +48,7 @@ function DeleteDocument() {
         </Button>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you sure yiu want to Delete?</DialogTitle>
+          <DialogTitle>Are you sure you want to Delete?</DialogTitle>
           <DialogDescription>
             This will delete the document and all its contents,removing all users from the documents
           </DialogDescription>
