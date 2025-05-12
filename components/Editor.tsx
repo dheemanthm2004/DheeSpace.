@@ -1,3 +1,5 @@
+
+// "use client";
 // import { useRoom, useSelf } from '@liveblocks/react/suspense';
 // import React, { useEffect, useState } from 'react';
 // import { LiveblocksYjsProvider } from '@liveblocks/yjs';
@@ -13,6 +15,7 @@
 // import TranslateDocument from './TranslateDocument';
 // import ChatToDocument from './ChatToDocument';
 // import ExportDocument from './ExportDocument';
+// import UploadButton from './UploadButton';
 
 // type EditorProps = {
 //   darkMode: boolean;
@@ -73,7 +76,7 @@
 //     darkMode
 //       ? "text-gray-300 bg-gray-700 hover:bg-gray-100 hover:text-gray-700"
 //       : "text-gray-700 bg-gray-200 hover:bg-gray-300 hover:text-gray-700"
-//     }`;
+//   }`;
 
 //   return (
 //     <>
@@ -81,6 +84,7 @@
 //         <div className="flex flex-wrap items-center gap-2 justify-end mb-6">
 //           {editorInstance && <TranslateDocument editor={editorInstance} />}
 //           {editorInstance && <ChatToDocument editor={editorInstance} />}
+//           {editorInstance && <UploadButton editor={editorInstance} />}
 //           {editorInstance && <ExportDocument editor={editorInstance} />}
 //           <Button className={style} onClick={() => setDarkMode(!darkMode)}>
 //             {darkMode ? <SunIcon /> : <MoonIcon />}
@@ -185,7 +189,7 @@ function Editor() {
         <div className="flex flex-wrap items-center gap-2 justify-end mb-6">
           {editorInstance && <TranslateDocument editor={editorInstance} />}
           {editorInstance && <ChatToDocument editor={editorInstance} />}
-          {/* {editorInstance && <UploadButton editor={editorInstance} />} */}
+          {editorInstance && <UploadButton editor={editorInstance} />}
           {editorInstance && <ExportDocument editor={editorInstance} />}
           <Button className={style} onClick={() => setDarkMode(!darkMode)}>
             {darkMode ? <SunIcon /> : <MoonIcon />}
