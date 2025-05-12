@@ -39,6 +39,7 @@ function LiveBlocksProvider({ children }: { children: React.ReactNode }) {
     <LiveblocksProvider
       throttle={16}
       authEndpoint={isTempDoc ? '/api/liveblocks-temp-auth' : '/auth-endpoint'}
+      largeMessageStrategy="split" // Add this line
     >
       {children}
     </LiveblocksProvider>
@@ -46,3 +47,4 @@ function LiveBlocksProvider({ children }: { children: React.ReactNode }) {
 }
 
 export default LiveBlocksProvider
+
