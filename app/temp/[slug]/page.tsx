@@ -19,19 +19,14 @@
 import Document from '@/components/Document';
 
 interface PageProps {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>;
 }
 
-export default function TempPage({ params }: PageProps) {
+export default async function TempPage({ params }: PageProps) {
+  const { slug } = await params; // Awaiting the promise
   return (
     <div className="flex flex-col flex-1 min-h-screen">
-      <Document 
-        id={`temp-${params.slug}`} 
-        isTemporary 
-        key={params.slug} // Ensure re-render on slug change
-      />
+      <Document id={`temp-${slug}`} isTemporary key={slug} />
     </div>
   );
 }
