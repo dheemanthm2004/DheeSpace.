@@ -4,7 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import { Toaster } from "@/components/ui/sonner";
-
+import { Analytics } from "@vercel/analytics/next"
 export const metadata: Metadata = {
   title: "DheeSpace",
   description: "Real-time collaboration with Gen-Z aesthetics.",
@@ -36,7 +36,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <ClerkProvider>
+    <><ClerkProvider>
       <html lang="en">
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -53,5 +53,7 @@ export default function RootLayout({
         </body>
       </html>
     </ClerkProvider>
+    <Analytics />
+    </>
   );
 }
