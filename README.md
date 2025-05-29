@@ -2,7 +2,7 @@
 
 > ✍️ Think Notion meets Google Docs — but with Gen-Z vibes, built from scratch using modern full-stack tools. Real-time editing, live cursors, AI Q&A, translate, export... all in one place.
 
-[🔗 Live Demo](https://dheespace.vercel.app) &nbsp;&nbsp;|&nbsp;&nbsp; [📂 View Code](https://github.com/yourusername/dheespace) &nbsp;&nbsp;|&nbsp;&nbsp; [📽️ Demo Video](#)
+[🔗 Live Demo](https://dheespace.vercel.app) &nbsp;&nbsp;|&nbsp;&nbsp; [📂 View Code]([https://github.com/yourusername/dheespace](https://github.com/dheemanthm2004/DheeSpace.) &nbsp;&nbsp;|&nbsp;&nbsp; [📽️ Demo Video](#)
 
 ---
 
