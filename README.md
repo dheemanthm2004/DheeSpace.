@@ -28,7 +28,7 @@
 | TypeScript     | Node.js (Edge)    | Liveblocks (presence)  | Google Gemini API   | Vercel Hosting  |
 | TailwindCSS    | Server Components | Firestore Admin SDK    | Puppeteer (PDF)    | Environment Secured |
 
-
+---
 
 ## 🚦 How It Works
 
