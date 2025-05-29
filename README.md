@@ -28,17 +28,7 @@
 | TypeScript     | Node.js (Edge)    | Liveblocks (presence)  | Google Gemini API   | Vercel Hosting  |
 | TailwindCSS    | Server Components | Firestore Admin SDK    | Puppeteer (PDF)    | Environment Secured |
 
----
 
-## 📸 Screenshots
-
-> ⚡️ Add some cool GIFs or images in a `public/demo/` folder and showcase:
-> - Landing Page
-> - Live Cursors
-> - AI Chat Popup
-> - Translate in Action
-
----
 
 ## 🚦 How It Works
 
