@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 DheeSpace — Real-Time Collaborative Document Editor with AI Superpowers
 
-## Getting Started
+> ✍️ Think Notion meets Google Docs — but with Gen-Z vibes, built from scratch using modern full-stack tools. Real-time editing, live cursors, AI Q&A, translate, export... all in one place.
 
-First, run the development server:
+[🔗 Live Demo](https://dheespace.vercel.app) &nbsp;&nbsp;|&nbsp;&nbsp; [📂 View Code](https://github.com/yourusername/dheespace) &nbsp;&nbsp;|&nbsp;&nbsp; [📽️ Demo Video](#)
+
+---
+
+## 🧠 Features
+
+- 🔐 **Auth & Access Control** — Sign in with Clerk, invite/remove collaborators, owner/editor roles
+- 📝 **Live Docs** — Real-time collaborative editing powered by **Liveblocks**
+- 🧑‍🤝‍🧑 **Presence Avatars** — See who’s online + live cursors with smooth animations
+- 🌍 **AI Translate** — Translate your doc to any language using **Gemini 2.5 flash API**
+- 🤖 **Chat to Document** — Ask questions about the doc using **Gemini** and get instant answers
+- 🧾 **Export to PDF / DOCX** — Download formatted documents with one click
+- 🧪 **Temporary Rooms** — Share link, no login needed. Public & disposable docs (like Pastebin on steroids)
+- 🎨 **TailwindCSS + Radix UI** — Aesthetic UI with neon highlights and Gen-Z gradients
+- 🌐 **Deployed on Vercel** — Lightning-fast global performance
+
+---
+
+## 🛠️ Tech Stack
+
+| Frontend       | Backend           | Realtime / DB         | AI / ML           | Auth & Infra    |
+|----------------|-------------------|------------------------|--------------------|-----------------|
+| Next.js 15 (App Router) | Server Actions | Firebase Firestore     | GeminiAI      | Clerk Auth      |
+| TypeScript     | Node.js (Edge)    | Liveblocks (presence)  | Google Gemini API   | Vercel Hosting  |
+| TailwindCSS    | Server Components | Firestore Admin SDK    | Puppeteer (PDF)    | Environment Secured |
+
+---
+
+## 📸 Screenshots
+
+> ⚡️ Add some cool GIFs or images in a `public/demo/` folder and showcase:
+> - Landing Page
+> - Live Cursors
+> - AI Chat Popup
+> - Translate in Action
+
+---
+
+## 🚦 How It Works
+
+### 🧾 Document Flow
+
+- Docs are stored in Firestore with metadata (title, owner, createdAt)
+- Liveblocks enables multiplayer editing + cursor tracking
+- Export options use `@blocknote/pdf-exporter` and `docx` libs
+
+### 🤖 AI Chat to Doc
+
+- Markdown content of doc is sent to OpenAI (via `chatToDocument.js`)
+- Response is parsed + displayed in chat window with Markdown support
+
+### 🌐 Temporary Room Mode
+
+- Guest sessions use token-auth via Liveblocks
+- No user info needed; avatars and names are randomized
+- Docs expire automatically after 14 days
+
+---
+
+## 🧑‍💻 Running Locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/dheespace.git
+cd dheespace
+pnpm install   # or use yarn / npm
+pnpm dev       # starts local dev server
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🔐 Add `.env` file with the following:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+FIREBASE_ADMIN_KEY_BASE64=...
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
+CLERK_SECRET_KEY=...
+GEMINI_API_KEY=...
+LIVEBLOCKS_SECRET_KEY=...
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> ⚠️ Never commit secrets directly. Use `.env.local` and `.gitignore`.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 💡 Inspiration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project was built to explore how to:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Architect full-stack apps using the latest Next.js features
+- Integrate real-time editing + collaborative tools
+- Build AI-first tools that feel **useful and slick**
+- Create something people would actually use beyond simple CRUD apps
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🙋‍♂️ Author
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Dheemanth M**
+
+> Computer Science Undergrad | BMSCE '26  
+> Bangalore, India 🇮🇳  
+> [LinkedIn](https://www.linkedin.com/in/dheemanth-madaiah-484a43327/) 
+
+---
+
+
