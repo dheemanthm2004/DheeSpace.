@@ -16,10 +16,13 @@ import {
 function TemporaryDocumentButton() {
   const [slug, setSlug] = useState("")
   const [isOpen, setIsOpen] = useState(false)
+  const [isCreating, setIsCreating] = useState(false)
   const router = useRouter()
 
   const handleCreate = () => {
     if (!slug.trim()) return
+
+    setIsCreating(true)
     router.push(`/temp/${slug.trim()}`)
   }
 
@@ -41,8 +44,11 @@ function TemporaryDocumentButton() {
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
           />
-          <Button onClick={handleCreate} disabled={!slug.trim()}>
-            Create
+          <Button
+            onClick={handleCreate}
+            disabled={!slug.trim() || isCreating}
+          >
+            {isCreating ? 'Let’s Go 🚀' : 'Go!'}
           </Button>
         </div>
       </DialogContent>
