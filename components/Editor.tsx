@@ -1,5 +1,5 @@
-
 "use client";
+
 import { useRoom, useSelf } from '@liveblocks/react/suspense';
 import React, { useEffect, useState } from 'react';
 import { LiveblocksYjsProvider } from '@liveblocks/yjs';
@@ -16,6 +16,9 @@ import TranslateDocument from './TranslateDocument';
 import ChatToDocument from './ChatToDocument';
 import ExportDocument from './ExportDocument';
 import UploadButton from './UploadButton';
+import { saveVersion } from "@/lib/saveVersion";
+import { toast } from 'sonner';
+import VersionHistory from "./VersionHistory";
 
 type EditorProps = {
   darkMode: boolean;
@@ -59,6 +62,7 @@ function Editor() {
   const [provider, setProvider] = useState<LiveblocksYjsProvider>();
   const [darkMode, setDarkMode] = useState(false);
   const [editorInstance, setEditorInstance] = useState<BlockNoteEditor>();
+  const [currentMarkdown, setCurrentMarkdown] = useState("");
 
   useEffect(() => {
     const yDoc = new Y.Doc();
@@ -72,6 +76,16 @@ function Editor() {
     };
   }, [room]);
 
+  useEffect(() => {
+    const fetchMarkdown = async () => {
+      if (editorInstance) {
+        const content = await editorInstance.blocksToMarkdownLossy(editorInstance.document);
+        setCurrentMarkdown(content);
+      }
+    };
+    fetchMarkdown();
+  }, [editorInstance]);
+
   const style = `hover:text-white ${
     darkMode
       ? "text-gray-300 bg-gray-700 hover:bg-gray-100 hover:text-gray-700"
@@ -79,27 +93,43 @@ function Editor() {
   }`;
 
   return (
-    <>
-      <div className="w-full max-w-6xl mx-auto px-2 sm:px-0">
-        <div className="flex flex-wrap items-center gap-2 justify-end mb-6">
-          {editorInstance && <TranslateDocument editor={editorInstance} />}
-          {editorInstance && <ChatToDocument editor={editorInstance} />}
-          {editorInstance && <UploadButton editor={editorInstance} />}
-          {editorInstance && <ExportDocument editor={editorInstance} />}
-          <Button className={style} onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? <SunIcon /> : <MoonIcon />}
+    <div className="w-full max-w-6xl mx-auto px-2 sm:px-0">
+      <div className="flex flex-wrap items-center gap-2 justify-end mb-6">
+        {editorInstance && <TranslateDocument editor={editorInstance} />}
+        {editorInstance && <ChatToDocument editor={editorInstance} />}
+        {editorInstance && <UploadButton editor={editorInstance} />}
+        {editorInstance && (
+          <Button
+            variant="outline"
+            onClick={async () => {
+              const content = await editorInstance.blocksToMarkdownLossy(editorInstance.document);
+              const result = await saveVersion(room.id, content);
+              toast[result.success ? "success" : "error"](
+                result.success ? "Version saved!" : "Failed to save version"
+              );
+            }}
+          >
+            💾 Save Version
           </Button>
-        </div>
-        {doc && provider && (
-          <BlockNote
-            doc={doc}
-            provider={provider}
-            darkMode={darkMode}
-            setEditorInstance={setEditorInstance}
-          />
         )}
+        {editorInstance && (
+          <VersionHistory docId={room.id} currentContent={currentMarkdown} />
+        )}
+        {editorInstance && <ExportDocument editor={editorInstance} />}
+        <Button className={style} onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? <SunIcon /> : <MoonIcon />}
+        </Button>
       </div>
-    </>
+
+      {doc && provider && (
+        <BlockNote
+          doc={doc}
+          provider={provider}
+          darkMode={darkMode}
+          setEditorInstance={setEditorInstance}
+        />
+      )}
+    </div>
   );
 }
 
