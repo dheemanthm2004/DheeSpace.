@@ -40,7 +40,7 @@
 
 ### 🤖 AI Chat to Doc
 
-- Markdown content of doc is sent to OpenAI (via `chatToDocument.js`)
+- Markdown content of doc is sent to Gemini (via `chatToDocument.js`)
 - Response is parsed + displayed in chat window with Markdown support
 
 ### 🌐 Temporary Room Mode
