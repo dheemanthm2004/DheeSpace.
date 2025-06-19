@@ -26,11 +26,14 @@ export default function Home() {
         {/* Feature Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-600 pt-2 px-2 sm:px-4">
           {[
-            "📝 Create docs solo or with friends",
-            "🌍 AI Chat & Translate",
-            "⚡️ Temporary docs = no login needed",
-            "📤 Export to PDF or Word"
-          ].map((text, idx) => (
+  "📝 Create docs solo or with friends",
+  "🌍 AI Chat & Translate built-in",
+  "🕒 Full Version History — Save & restore",
+  "⚡️ Temporary docs — no login needed",
+  "📤 Export to PDF or Word instantly",
+  "👀 Live cursors + real-time avatars"
+]
+.map((text, idx) => (
             <div
               key={idx}
               className="bg-white/70 backdrop-blur-md py-2 px-3 rounded-xl shadow-sm transition-transform duration-200 hover:shadow-md hover:-translate-y-1 hover:bg-white/80"

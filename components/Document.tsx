@@ -29,7 +29,7 @@ function Document({ id, isTemporary = false }: { id: string; isTemporary?: boole
         {
           title: "Temporary Document",
           createdAt: new Date(),
-          expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+          expiresAt: new Date(Date.now() + 31 * 24 * 60 * 60 * 1000),
         },
         { merge: true }
       );
@@ -85,10 +85,12 @@ function Document({ id, isTemporary = false }: { id: string; isTemporary?: boole
         />
       </svg>
 
-      {/* Tooltip Box - appears below icon */}
-      <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-56 rounded-md bg-purple-800 text-white text-xs px-2 py-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
-        🚧 Public & Temporary: anyone with this link can view and edit.
-      </div>
+     {/* Tooltip Box - appears below icon */}
+<div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-64 rounded-md bg-purple-800 text-white text-xs px-2 py-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50 text-center">
+  🚧 Public & Temporary — editable by anyone with the link. <br />
+  ⏳ Expires 30 days after creation.
+</div>
+
     </div>
   </div>
 )}
