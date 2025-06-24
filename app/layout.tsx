@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: "DheeSpace",
     images: [
       {
-        url: "https://i.postimg.cc/yYspCNFd/Screenshot-2025-05-08-223558.png",
+        url: "https://i.postimg.cc/85zqHbzP/Screenshot-2025-06-25-012039.png",
         width: 1200,
         height: 630,
         alt: "DheeSpace Preview Image",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DheeSpace",
     description: "Real-time collaboration with Gen-Z aesthetics.",
-    images: ["https://i.postimg.cc/yYspCNFd/Screenshot-2025-05-08-223558.png"],
+    images: ["https://i.postimg.cc/85zqHbzP/Screenshot-2025-06-25-012039.png"],
   },
 };
 
