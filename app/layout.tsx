@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: "LiveDocs",
     images: [
       {
-        url: "https://i.postimg.cc/85zqHbzP/Screenshot-2025-06-25-012039.png",
+        url: "https://i.ibb.co/S7r4xdKf/image.png",
         width: 1200,
         height: 630,
         alt: "LiveDocs Preview Image",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "LiveDocs",
     description: "Real-time collaboration with Gen-Z aesthetics.",
-    images: ["https://i.postimg.cc/85zqHbzP/Screenshot-2025-06-25-012039.png"],
+    images: ["https://i.ibb.co/S7r4xdKf/image.png"],
   },
 };
 
