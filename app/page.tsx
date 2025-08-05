@@ -9,7 +9,7 @@ export default function Home() {
       <div className="text-center space-y-6 max-w-xl w-full">
         {/* Logo */}
         <div className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-fuchsia-500 via-purple-500 to-pink-400 text-transparent bg-clip-text drop-shadow tracking-widest">
-          DheeSpace
+          LiveDocs
         </div>
 
         {/* Hero Title */}

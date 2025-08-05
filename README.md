@@ -1,8 +1,8 @@
-# 🚀 DheeSpace — Real-time Collaborative Docs with AI + Multiplayer Magic
+# 🚀 LiveDocs — Real-time Collaborative Docs with AI + Multiplayer Magic
 
 > ✍️ Notion meets Google Docs — reimagined with AI, live presence, and Gen-Z aesthetics. Built from scratch using bleeding-edge full-stack tools.
 
-[🔗 Live Demo](https://dheespace.vercel.app) &nbsp;|&nbsp; [📂 Source Code](https://github.com/dheemanthm2004/DheeSpace.)
+[🔗 Live Demo](https://livedocsai.vercel.app) &nbsp;|&nbsp; [📂 Source Code](https://github.com/dheemanthm2004/DheeSpace.)
 
 ---
 
@@ -63,7 +63,7 @@
 
 ## 🎯 Why This Project?
 
-DheeSpace was built to:
+LiveDocs was built to:
 
 - Push the limits of **Next.js 15 full-stack architecture**
 - Explore **real-time collaborative systems** with awareness and avatars

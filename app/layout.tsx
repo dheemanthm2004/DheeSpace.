@@ -7,19 +7,19 @@ import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 export const metadata: Metadata = {
-  title: "DheeSpace",
+  title: "LiveDocs",
   description: "Real-time collaboration with Gen-Z aesthetics.",
   openGraph: {
-    title: "DheeSpace",
+    title: "LiveDocs",
     description: "Real-time collaboration with Gen-Z aesthetics.",
-    url: "https://dheespace.vercel.app",
-    siteName: "DheeSpace",
+    url: "https://livedocsai.vercel.app",
+    siteName: "LiveDocs",
     images: [
       {
         url: "https://i.postimg.cc/85zqHbzP/Screenshot-2025-06-25-012039.png",
         width: 1200,
         height: 630,
-        alt: "DheeSpace Preview Image",
+        alt: "LiveDocs Preview Image",
       },
     ],
     locale: "en_US",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "DheeSpace",
+    title: "LiveDocs",
     description: "Real-time collaboration with Gen-Z aesthetics.",
     images: ["https://i.postimg.cc/85zqHbzP/Screenshot-2025-06-25-012039.png"],
   },
